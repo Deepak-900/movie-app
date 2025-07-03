@@ -1,6 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const MovieDetailsPage = () => {
     let { id } = useParams();
@@ -25,6 +26,24 @@ const MovieDetailsPage = () => {
         const mins = minutes % 60;
         return `${hours}h ${mins}m`;
     };
+
+    const dispatch = useDispatch();
+
+    const handleSubmit = () => {
+        let cart_item = {
+            // ...movie, //move, to take all the fields from movie
+            id: Date.now(),
+            title: movie.primaryTitle,
+            image: movie.primaryImage,
+            genres: movie.genres,
+            releaseDate: movie.releaseDate,
+            contentRating: movie.contentRating,
+            no_of_days: 7,
+            price: 70
+        }
+        dispatch({ type: "ADD_TO_CART", payload: cart_item })
+        Swal.fire('Congrats!', 'Your movie added to cart_item.', 'success')
+    }
 
     return (
         <div className="bg-light">
@@ -83,6 +102,16 @@ const MovieDetailsPage = () => {
                                     className="btn btn-outline-light btn-lg px-4"
                                 >
                                     <i className="bi bi-film me-2"></i> IMDb Page
+                                </a>
+                                <a
+
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn btn-outline-light btn-lg px-4"
+
+                                    onClick={handleSubmit}
+                                >
+                                    <i className="bi bi-film me-2"></i> Add to cart
                                 </a>
                             </div>
                         </div>

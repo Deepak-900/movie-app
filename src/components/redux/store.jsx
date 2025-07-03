@@ -1,5 +1,7 @@
 import { combineReducers } from "redux";
+
 import movieReducer from "./movieStore";
+import cartReducer from "./cartReducer";
 
 
 import { createStore } from 'redux'
@@ -8,11 +10,12 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 
 
 const rootReducer = combineReducers({
-    movieStore: movieReducer
+    movieStore: movieReducer,
+    cartStore: cartReducer
 })
 
 const persistConfig = {
-    key: 'root',
+    key: 'movieRoot',
     storage,
 }
 
