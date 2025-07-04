@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
-    // const [showSearch, setShowSearch] = useState(false);
-    const [cartItems] = useState(3);
+    // let [search, setSearch] = useState('');
+    // let [filteredResult, setFilteredResult] = useState([])
+
+
+    let cart_items = useSelector(store => store.cartStore.cart_items)
+    let length = cart_items?.length
+
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm px-2 px-lg-5">
@@ -53,9 +59,9 @@ const Header = () => {
                         {/* Cart */}
                         <Link className="nav-link position-relative mx-2" to="/cart">
                             <i className="bi bi-cart3 fs-5"></i>
-                            {cartItems > 0 && (
+                            {length > 0 && (
                                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    {cartItems}
+                                    {length}
                                 </span>
                             )}
                         </Link>
@@ -91,6 +97,7 @@ const Header = () => {
                                     type="text"
                                     className="form-control"
                                     placeholder="Search movies..."
+                                    onChange={e => setSearch(e.target.value)}
                                 />
                                 <button className="btn btn-primary" type="button">
                                     <i className="bi bi-search"></i>
@@ -115,9 +122,9 @@ const Header = () => {
                             <Link className="nav-link d-flex align-items-center position-relative" to="/cart">
                                 <i className="bi bi-cart3 me-3 fs-5"></i>
                                 Cart
-                                {cartItems > 0 && (
+                                {length > 0 && (
                                     <span className="position-absolute start-100 translate-middle badge rounded-pill bg-danger ms-1">
-                                        {cartItems}
+                                        {length}
                                     </span>
                                 )}
                             </Link>

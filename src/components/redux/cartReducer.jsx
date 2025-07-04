@@ -13,7 +13,8 @@ const cartReducer = (state = intialData, action) => {
         case "UPDATE_CART":
             return {
                 cart_items: state.cart_items.map(item => {
-                    item.id == action.payload.id ? action.payload : item
+                    console.log(item, action.payload)
+                    return item.id == action.payload.id ? action.payload : item
                 })
             }
         case "CLEAR_CART":

@@ -7,6 +7,7 @@ const MovieDetailsPage = () => {
     let { id } = useParams();
     const movieStore = useSelector((state) => state.movieStore);
     const movie = movieStore.movies.find(item => item.id === id);
+    const { cart_items } = useSelector(store => store.cartStore)
 
     if (!movie) {
         return <div className="container py-5 text-center">Movie not found</div>;
@@ -30,19 +31,30 @@ const MovieDetailsPage = () => {
     const dispatch = useDispatch();
 
     const handleSubmit = () => {
-        let cart_item = {
-            // ...movie, //move, to take all the fields from movie
-            id: Date.now(),
-            title: movie.primaryTitle,
-            image: movie.primaryImage,
-            genres: movie.genres,
-            releaseDate: movie.releaseDate,
-            contentRating: movie.contentRating,
-            no_of_days: 7,
-            price: 70
+
+        // check if movie is already added
+        let itemExists = cart_items.find(item => item.title == movie.primaryTitle)
+
+        if (itemExists) {
+            Swal.fire('Attention!', 'Movie already in cart', 'warning')
         }
-        dispatch({ type: "ADD_TO_CART", payload: cart_item })
-        Swal.fire('Congrats!', 'Your movie added to cart_item.', 'success')
+        else {
+            let cart_item = {
+                // ...movie, //move, to take all the fields from movie
+                id: Date.now(),
+                title: movie.primaryTitle,
+                image: movie.primaryImage,
+                genres: movie.genres,
+                releaseDate: movie.releaseDate,
+                contentRating: movie.contentRating,
+                no_of_days: 7,
+                price: 70
+            }
+            dispatch({ type: "ADD_TO_CART", payload: cart_item })
+            Swal.fire('Congrats!', 'Your movie added to cart_item.', 'success')
+        }
+
+
     }
 
     return (
